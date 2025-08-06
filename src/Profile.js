@@ -20,8 +20,10 @@ function Profile() {
       headers: myHeaders,
       redirect: "follow",
     };
+    // api หน้านี้ยังไม่มีใน Server
 
-    fetch("/api/auth/user", requestOptions)
+    // ต้องทำ /api/auth/user เริ่มจากทำ flowchart ของหน้า profile ก่อน
+    fetch("http://localhost:5000/api/auth/users", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status === "ok") {

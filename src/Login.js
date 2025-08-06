@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+
 const MySwal = withReactContent(Swal);
+
 function Login() {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
@@ -22,7 +24,6 @@ function Login() {
     var raw = JSON.stringify({
       email: inputs.email,
       password: inputs.password,
-      expiresIn: 60000,
     });
 
     var requestOptions = {
@@ -32,24 +33,42 @@ function Login() {
       redirect: "follow",
     };
 
-    fetch("http://localhost:3000/api/login", requestOptions)
+    fetch("http://localhost:5000/api/login", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
+
+        // ตรวจสอบว่ามี token หรือไม่ ตามที่ API ส่งกลับมา
+        if (result.token != "") {
+          localStorage.setItem("token", result.token);
+          alert("ล็อกอินสำเร็จ");
+          navigate("/profile");
+        } else {
+          //  result.message คือข้อความที่ API ส่งกลับมา statusCode 400
+          // ที่ใช้แบบไม่ต้องมีเงื่อนไข statusCode 400 ได้เพราะว่า API จะไม่ส่ง token กลับมา ถ้าไม่สำเร็จ
+          alert("ล็อกอินไม่สำเร็จ " + result.message);
+          // MySwal.fire({
+          //   html: <i>{result.message}</i>,
+          //   icon: "error",
+          // });
+        }
       })
+
       .catch((error) => console.error(error));
+
     console.log(inputs);
   };
 
+  // JSX ต้องอยู่ภายในฟังก์ชันเท่านั้น
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <label>
-          Username:
+          email:
           <input
             type="text"
-            name="username"
-            value={inputs.username || ""}
+            name="email"
+            value={inputs.email || ""}
             onChange={handleChange}
           />
         </label>
