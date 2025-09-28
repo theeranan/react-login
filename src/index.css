@@ -1,7 +1,9 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "tailwindcss";
+
+import tailwindcss from '@tailwindcss/vite'
 
 body {
   margin: 0;
