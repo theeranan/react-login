@@ -1,29 +1,51 @@
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header
-        user={{
-          avatar: "/images/avatar.jpg",
-          name: "Somchai S.",
-          room: "A-102",
-        }}
-      />
+    <div style={styles.container}>
+      <h1 style={styles.heading}>Welcome to the Home Page</h1>
+      <p style={styles.paragraph}>
+        This is a simple React home page. You can navigate to other sections
+        using the links below.
+      </p>
 
-      <div className="flex flex-1">
-        <Sidebar />
-
-        <main className="flex-1 p-6">
-          <h2 className="text-2xl font-semibold mb-4">
-            สวัสดี, Somchai! ยินดีต้อนรับสู่หน้าหลัก
-          </h2>
-        </main>
+      <div style={styles.links}>
+        <Link to="/login" style={styles.link}>
+          Go to Login
+        </Link>
+        <Link to="/profile" style={styles.link}>
+          Go to Profile
+        </Link>
       </div>
-
-      <Footer />
     </div>
   );
 }
+
+const styles = {
+  container: {
+    padding: "40px",
+    textAlign: "center",
+    fontFamily: "Arial, sans-serif",
+  },
+  heading: {
+    fontSize: "2rem",
+    marginBottom: "20px",
+  },
+  paragraph: {
+    fontSize: "1.2rem",
+    marginBottom: "30px",
+  },
+  links: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+  },
+  link: {
+    padding: "10px 20px",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    textDecoration: "none",
+    borderRadius: "5px",
+  },
+};

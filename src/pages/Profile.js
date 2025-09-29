@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import Home from "./pages/Home";
+import Home from "./Home";
 function Profile() {
   const navigete = useNavigate();
   const MySwal = withReactContent(Swal);
