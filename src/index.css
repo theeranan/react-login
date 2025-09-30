@@ -18,3 +18,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Fix z-index for SweetAlert2 to appear above Material-UI Dialog */
+.swal2-container {
+  z-index: 9999 !important;
+}
+
+/* Material-UI Dialog has default z-index of 1300 */
+/* SweetAlert2 now has z-index of 9999, so it will appear on top */

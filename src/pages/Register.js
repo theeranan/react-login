@@ -9,17 +9,15 @@ import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import Alert from "@mui/material/Alert";
 import Paper from "@mui/material/Paper";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Avatar from "@mui/material/Avatar";
 
 import Swal from "sweetalert2";
-import { useAuth } from "../auth/useAuth";
 import authService from "../services/authService";
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const [inputs, setInputs] = useState({ email: "", password: "" });
+  const [inputs, setInputs] = useState({ email: "", password: "", confirmPassword: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,29 +29,42 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
+
+    // Validation
+    if (!inputs.email || !inputs.password || !inputs.confirmPassword) {
+      setError("กรุณากรอกข้อมูลให้ครบถ้วน");
+      return;
+    }
+
+    if (inputs.password !== inputs.confirmPassword) {
+      setError("รหัสผ่านไม่ตรงกัน");
+      return;
+    }
+
+    if (inputs.password.length < 6) {
+      setError("รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const result = await authService.login(inputs.email, inputs.password);
+      const result = await authService.register(inputs.email, inputs.password);
 
-      if (result.token && result.users) {
-        login(result.token, result.users);
+      Swal.fire({
+        title: "สมัครสมาชิกสำเร็จ!",
+        text: "กรุณาเข้าสู่ระบบ",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
 
-        Swal.fire({
-          title: "ล็อกอินสำเร็จ!",
-          text: `ยินดีต้อนรับ ${result.users.email}`,
-          icon: "success",
-          timer: 1500,
-          showConfirmButton: false,
-        });
-
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 1500);
-      }
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (error) {
       console.error(error);
-      const errorMessage = error.response?.data?.message || "ล็อกอินไม่สำเร็จ กรุณาลองใหม่อีกครั้ง";
+      const errorMessage = error.response?.data?.message || "สมัครสมาชิกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง";
       setError(errorMessage);
 
       Swal.fire({
@@ -88,16 +99,16 @@ export default function Login() {
             borderRadius: 3,
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "primary.main", width: 56, height: 56 }}>
-            <LockOutlinedIcon fontSize="large" />
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main", width: 56, height: 56 }}>
+            <PersonAddIcon fontSize="large" />
           </Avatar>
 
           <Typography component="h1" variant="h4" fontWeight="bold" sx={{ mb: 1 }}>
-            ระบบจัดการหอพัก
+            สมัครสมาชิก
           </Typography>
 
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            เข้าสู่ระบบเพื่อจัดการข้อมูล
+            สร้างบัญชีใหม่เพื่อเข้าใช้งานระบบ
           </Typography>
 
           {error && (
@@ -134,8 +145,22 @@ export default function Login() {
               label="รหัสผ่าน"
               type="password"
               id="password"
-              autoComplete="current-password"
+              autoComplete="new-password"
               value={inputs.password}
+              onChange={handleChange}
+              variant="outlined"
+              helperText="รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร"
+            />
+
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirmPassword"
+              label="ยืนยันรหัสผ่าน"
+              type="password"
+              id="confirmPassword"
+              value={inputs.confirmPassword}
               onChange={handleChange}
               variant="outlined"
             />
@@ -154,21 +179,21 @@ export default function Login() {
               }}
               disabled={loading}
             >
-              {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
+              {loading ? "กำลังสมัครสมาชิก..." : "สมัครสมาชิก"}
             </Button>
 
             <Box sx={{ textAlign: "center", mt: 2 }}>
               <Typography variant="body2" color="text.secondary">
-                ยังไม่มีบัญชี?{" "}
+                มีบัญชีอยู่แล้ว?{" "}
                 <Link
-                  to="/register"
+                  to="/login"
                   style={{
                     textDecoration: "none",
                     color: "#1976d2",
                     fontWeight: "bold"
                   }}
                 >
-                  สมัครสมาชิก
+                  เข้าสู่ระบบ
                 </Link>
               </Typography>
             </Box>

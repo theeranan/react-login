@@ -1,35 +1,39 @@
-// src/auth/AuthProvider.jsx (ย่อ)
 import React, { createContext, useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const t = localStorage.getItem("accessToken");
-    if (t) {
-      setToken(t);
-      setUser(jwt_decode(t)); // { sub, name, roles, exp }
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+
+    if (storedToken && storedUser) {
+      setToken(storedToken);
+      setUser(JSON.parse(storedUser));
     }
+    setLoading(false);
   }, []);
 
-  const login = (t) => {
-    localStorage.setItem("accessToken", t);
-    setToken(t);
-    setUser(jwt_decode(t));
+  const login = (token, userData) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData));
+    setToken(token);
+    setUser(userData);
   };
 
   const logout = () => {
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setToken(null);
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider value={{ token, user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
