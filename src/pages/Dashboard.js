@@ -69,11 +69,11 @@ export default function Dashboard() {
     }
   };
 
-  const StatCard = ({ title, value, icon, color, gradient }) => (
+  const StatCard = ({ title, value, icon, color }) => (
     <Card
       sx={{
         height: "100%",
-        background: gradient || `linear-gradient(135deg, ${color} 0%, ${color}dd 100%)`,
+        backgroundColor: color,
         color: "white",
         transition: "all 0.3s ease",
         "&:hover": {
@@ -148,7 +148,7 @@ export default function Dashboard() {
             title="ลูกค้าทั้งหมด"
             value={stats.totalCustomers}
             icon={<PeopleIcon />}
-            gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+            color="#667eea"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -156,7 +156,7 @@ export default function Dashboard() {
             title="ห้องทั้งหมด"
             value={stats.totalRooms}
             icon={<MeetingRoomIcon />}
-            gradient="linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%)"
+            color="#2e7d32"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -164,7 +164,7 @@ export default function Dashboard() {
             title="ห้องว่าง"
             value={stats.availableRooms}
             icon={<MeetingRoomIcon />}
-            gradient="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
+            color="#f093fb"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -172,7 +172,7 @@ export default function Dashboard() {
             title="ห้องที่มีผู้เช่า"
             value={stats.occupiedRooms}
             icon={<MeetingRoomIcon />}
-            gradient="linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+            color="#4facfe"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -180,7 +180,7 @@ export default function Dashboard() {
             title="พนักงานทั้งหมด"
             value={stats.totalEmployees}
             icon={<WorkIcon />}
-            gradient="linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"
+            color="#a8edea"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -188,7 +188,7 @@ export default function Dashboard() {
             title="บิลยังไม่จ่าย"
             value={stats.unpaidPayments}
             icon={<PaymentIcon />}
-            gradient="linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)"
+            color="#ff9a9e"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -196,7 +196,7 @@ export default function Dashboard() {
             title="รอซ่อม"
             value={stats.pendingRepairs}
             icon={<WarningIcon />}
-            gradient="linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)"
+            color="#ffecd2"
           />
         </Grid>
       </Grid>
@@ -207,7 +207,7 @@ export default function Dashboard() {
             <Paper
               sx={{
                 p: 4,
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                backgroundColor: "#667eea",
                 color: "white",
                 borderRadius: 3,
               }}
@@ -227,7 +227,7 @@ export default function Dashboard() {
               sx={{
                 p: 4,
                 borderRadius: 3,
-                background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+                backgroundColor: "#f093fb",
                 color: "white",
               }}
               elevation={3}
