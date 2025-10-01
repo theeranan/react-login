@@ -3,7 +3,12 @@
     "allow": [
       "Read(//Users/theeranan/dev/react-server/**)",
       "Bash(npm install:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(git config:*)",
+      "Bash(git remote set-url origin https://theeranan:0824071726@Tt@github.com/theeranan/react-login.git)",
+      "Bash(git remote set-url:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
